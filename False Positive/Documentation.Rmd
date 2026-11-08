@@ -1,0 +1,203 @@
+---
+title: "The Probability Behind Medical Testing"
+header-includes: \usepackage{amsmath}
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+fontsize: 11pt
+indent: yes
+self_contained: true
+---
+<style type="text/css">
+.main-container {
+max-width: 400px;
+line-height: 2;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width = 100, tidy=TRUE)
+```
+
+
+Below is a high level overview of the quantities presented in the app and how to interpret them. To get more realistic output, enter a prevalence of less than 50\%, and sensitivity/specificity above 50\%. Typically the latter are upwards of 80-99\%.
+
+### Probability 
+
+The probability of the occurrence of event $D$ is represented by $P(D)$. This is a number between zero and one that describes how likely the event $D$ is to occur. 
+
+### Conditional Probability
+
+The conditional probability of an event $D$ given that another event $T$ occurs is represented by $P(D|T)$ and is described as "probability that $D$ occurs given that $T$ already occurred". 
+
+To better understand the terms below we use the following notation for events of interest
+
+\begin{align}
+D &= \text{Event the disease is present.} \\
+T &= \text{Event that the test is positive.} \\
+D' &= \text{Event the disease is not present.} \\
+T' &= \text{Event that the test result is negative.} 
+\end{align}
+
+
+### Bayes' Theorem
+
+Bayes' theorem allows us to reformulate conditional probabilities to arrive at unknown quantities in these types of problem. Stated mathematically Bayes' theorem is written as
+
+\begin{align}
+P(A|B)=\frac{P(B|A)P(A)}{P(B)}
+\end{align}
+
+where $A$ and $B$ are events and $P(B) \neq 0$. The theorem is used behind the scenes to take the user input sensitivity and specificity of a test and reformulate them into other informative probabilities based on the disease prevalence. 
+
+### Sensitivity
+
+Sensitivity measures how often a test correctly results in positive for a random test subject that has the condition. A highly sensitive test will more likely identify a true positive case. The sensitivity of a test can also be referred to as the probability of a true positive result. Using the symbols we have established above, we can represent the sensitivity of a test as a conditional probability
+
+\begin{align}
+\text{Sensitivity}  = P(T|D).
+\end{align}
+
+In other words, the probability that the result of the test is positive given that the individual does have the disease or condition in question. 
+
+### Specificity
+
+Specificity measures the ability of a test to correctly generate a negative result for a random test subject that doesn't have the condition. A highly specific test will have a higher chance of correctly identifying a negative case. The specificity can also be referred to as the probability of a true negative result. Using the symbols we have established we can represent the specificity of a test as a conditional probability
+
+\begin{align}
+\text{Specificity} = P(T' | D').
+\end{align}
+
+
+In other words, the probability that the result of the test is negative given that the test subject doesn't have the disease or condition in question. 
+
+### Prevalence
+
+Prevalence is the proportion of a population that have a specific characteristic at any given time period. We can also represent the prevalence as a probability
+
+\begin{align}
+\text{Prevalence} = P(D).
+\end{align}
+
+If there is $P(D)$ of having the disease then $1-P(D) = P(D')$ is the probability of not having the condition. Prevalence can be estimated by taking a sample from the population and counting how many people have the desired characteristic. The number of true cases found is then divided by the total in the sample and this can be used as an estimator of the actual prevalence. 
+
+### Confusion Matrix
+
+A confusion matrix is a table of values that describe the classification performance of a particular model or test. In the False Positive confusion matrix we show how a hypothetical population of 100,000 tests given would be associated with each type of result based on the user input. 
+
+\begin{align}
+\text{TP - True Positive} &=P(T|D) \\
+\text{FP - False Positive} &=P(T|D') \\
+\text{TN - True Negative} &=P(T'|D') \\
+\text{FN - False Negative} &=P(T'|D) 
+\end{align}
+
+
+### Probability Of Testing Positive P(+)
+
+The overall probability of testing positive is found by evaluating the probability of testing positive if the subject does or does not have the condition. This can be written as a sum of two disjoint probabilities
+
+\begin{align}
+P(T) = P(T|D)P(D) + P(T|D')P(D').
+\end{align}
+
+### Probability Of Testing Negative P(-)
+
+
+The overall probability of testing negative is found by evaluating the probability of testing negative if the subject does or does not have the condition. This can be written as a sum of two disjoint probabilities
+
+\begin{align}
+P(T') = P(T'|D')P(D') + P(T'|D)P(D).
+\end{align}
+
+### Positive Predictive Value (PPV)
+
+Often the Sensitivity is confused with the likelihood that the positive result of a test is correct. For example, if a test has a 95% sensitivity rate some might think that if they test positive then there is a 95% chance they have the disease. This is not the case and is actually better illustrated by Positive Predictive Value (PPV). Positive Predictive Value is a number between zero and one that represents the probability that an individual has the disease given a positive result. Just the opposite from sensitivity. There are a few ways to represent this quantity. The most basic is just as the ratio of true positives to total positives found. 
+
+
+
+$$ \textstyle \frac{\text{number of true positives}}{\text{number of true positives} + \text{number of false positives}} $$
+
+
+
+Applying our terminology and notation we can write PPV a different way. 
+
+
+$$ \textstyle \frac{\text{sensitivity}\times \text{prevalence}}{\text{sensitivity}\times \text{prevalence} + (1-\text{sensitivity})\times (1- \text{prevalence})}$$
+
+
+
+
+
+Then simplifying this ratio using the notation and definitions established above
+
+\begin{align}
+\text{PPV} &= \frac{P(T|D)P(D)}{P(T|D)P(D) + P(T|D')P(D')} \\ 
+&= \frac{P(T|D)P(D)}{P(T)}
+\end{align}
+
+Then applying Bayes' Theorem
+
+
+\begin{align}
+\text{PPV} = ... = P(D|T).
+\end{align}
+
+This quantity is indeed the probability that the test subject has the condition given that the result was positive. 
+
+### False Discovery Rate (FDR)
+
+If the result of the test is positive and the test subject doesn't have the disease then the classification is a false positive. The False Discovery Rate (FDR), or the rate at which false positives are generated is opposite to the rate of generating a true positive defined above as PPV. Probability allows us to solve for the opposite, or compliment, probability by taking one minus the known probability. To solve for FDR based on PPV we just need to subtract it from one.  
+\begin{align}
+\text{FDR} = 1 - \text{PPV} = 1-P(D|T). 
+\end{align}
+
+### Negative Predictive Value (NPV)
+
+Specificity is often confused with the likelihood that the negative result of a test is correct. For example, if a test has a 95% specificity some might think that if they test negative then there is a 95% chance they don't have the disease. This is not the case and is actually described by Negative Predictive Value (NPV). NPV is a number between zero and one that represents the probability that an individual doesn't have the disease given that a negative result was generated. Similar to PPV a simple representation uses the ratio of true negatives to total negatives found. 
+
+\begin{align}
+\textstyle \frac{\text{number of true negatives}}{\text{number of true negatives} + \text{number of false negatives}}
+\end{align}
+
+Applying our terminology, NPV can be rewritten as
+
+\begin{align}
+\textstyle \frac{\text{specificity}\times (1-\text{prevalence})}{\text{specificity}\times (1-\text{prevalence})  + (1-\text{sensitivity})\times (\text{prevalence})}.
+\end{align}
+
+Then simplifying this ratio using the notation and definitions established above
+
+\begin{align}
+\text{NPV} &= \frac{P(T'|D')P(D')}{P(T'|D')P(D') + P(T'|D)P(D)} \\ 
+&= \frac{P(T'|D')P(D')}{P(T')}.
+\end{align}
+
+Then applying Bayes' Theorem to further simplify this expression we get that the following are equivalent
+
+
+\begin{align}
+\text{NPV} = ... = P(D'|T').
+\end{align}
+
+This quantity NPV is indeed the probability that the test subject doesn't have the condition given that the result was negative. 
+
+
+\vspace*{2cm}
+
+
+### False Omission Rate (FOR)
+
+If the result of the test is negative and the test subject has the disease then the classification is a false negative. The False Omission Rate (FOR), or the rate at which false negatives are generated, is opposite to the rate of generating a true negative defined above as NPV. Probability allows us to solve for the opposite, or compliment, probability by taking one minus the known probability. To solve for FOR based on NPV we just need to subtract it from one.
+
+
+\begin{align}
+\text{FOR} = 1 - \text{NPV} = 1-P(D'|T').
+\end{align}
+
+
+### Note About Assumptions
+
+These calculations above are inherently assuming that the disease is identically distributed throughout a population and that $P(D)$ is the same for everybody. This is more likely not the case, however the concept remains the same and still illustrates that just because a medical test has a 95\% specificity DOES NOT mean that there is a 95\% chance that you have the disease given that you tested positive and is often much lower. This is not meant to give any medical recommendations nor advocate for rejecting test results. This is merely meant to be an elaboration of often overlooked mechanics of probability theory as it relates to medical testing.

@@ -13,6 +13,11 @@
 		FC08E93024A3A5F100FCED26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC08E92F24A3A5F100FCED26 /* Assets.xcassets */; };
 		FC08E93324A3A5F100FCED26 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC08E93224A3A5F100FCED26 /* Preview Assets.xcassets */; };
 		FC08E93624A3A5F100FCED26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC08E93424A3A5F100FCED26 /* LaunchScreen.storyboard */; };
+		FC0A5E2B24EB820700698C09 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = FC0A5E2A24EB820700698C09 /* index.html */; };
+		FCA60C2024C2797D003C571B /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA60C1F24C2797D003C571B /* DecimalField.swift */; };
+		FCA60CB024CE073D003C571B /* NeuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA60CAF24CE073D003C571B /* NeuButton.swift */; };
+		FCA60CB224CFB5D2003C571B /* NavigationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA60CB124CFB5D2003C571B /* NavigationModifier.swift */; };
+		FCBA905224BFF504009E6C05 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA905124BFF504009E6C05 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		FC08E93224A3A5F100FCED26 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FC08E93524A3A5F100FCED26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC08E93724A3A5F100FCED26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC0A5E2A24EB820700698C09 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		FCA60C1F24C2797D003C571B /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
+		FCA60CAF24CE073D003C571B /* NeuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuButton.swift; sourceTree = "<group>"; };
+		FCA60CB124CFB5D2003C571B /* NavigationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModifier.swift; sourceTree = "<group>"; };
+		FCBA905124BFF504009E6C05 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +66,18 @@
 		FC08E92824A3A5F000FCED26 /* False Positive */ = {
 			isa = PBXGroup;
 			children = (
+				FC0A5E2A24EB820700698C09 /* index.html */,
 				FC08E92924A3A5F000FCED26 /* AppDelegate.swift */,
 				FC08E92B24A3A5F000FCED26 /* SceneDelegate.swift */,
 				FC08E92D24A3A5F000FCED26 /* ContentView.swift */,
+				FCA60CB124CFB5D2003C571B /* NavigationModifier.swift */,
+				FCA60CAF24CE073D003C571B /* NeuButton.swift */,
 				FC08E92F24A3A5F100FCED26 /* Assets.xcassets */,
 				FC08E93424A3A5F100FCED26 /* LaunchScreen.storyboard */,
 				FC08E93724A3A5F100FCED26 /* Info.plist */,
 				FC08E93124A3A5F100FCED26 /* Preview Content */,
+				FCBA905124BFF504009E6C05 /* WebView.swift */,
+				FCA60C1F24C2797D003C571B /* DecimalField.swift */,
 			);
 			path = "False Positive";
 			sourceTree = "<group>";
@@ -136,6 +151,7 @@
 				FC08E93624A3A5F100FCED26 /* LaunchScreen.storyboard in Resources */,
 				FC08E93324A3A5F100FCED26 /* Preview Assets.xcassets in Resources */,
 				FC08E93024A3A5F100FCED26 /* Assets.xcassets in Resources */,
+				FC0A5E2B24EB820700698C09 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,8 +163,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC08E92A24A3A5F000FCED26 /* AppDelegate.swift in Sources */,
+				FCBA905224BFF504009E6C05 /* WebView.swift in Sources */,
+				FCA60CB224CFB5D2003C571B /* NavigationModifier.swift in Sources */,
+				FCA60C2024C2797D003C571B /* DecimalField.swift in Sources */,
 				FC08E92C24A3A5F000FCED26 /* SceneDelegate.swift in Sources */,
 				FC08E92E24A3A5F000FCED26 /* ContentView.swift in Sources */,
+				FCA60CB024CE073D003C571B /* NeuButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,15 +305,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"False Positive/Preview Content\"";
 				DEVELOPMENT_TEAM = D4H5587ATG;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "False Positive/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.appfactorial.False-Positive";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appfactorial.falsepositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -305,15 +327,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"False Positive/Preview Content\"";
 				DEVELOPMENT_TEAM = D4H5587ATG;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "False Positive/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.appfactorial.False-Positive";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appfactorial.falsepositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

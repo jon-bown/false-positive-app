@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# R / knitr artifacts
+Rplots.pdf
+.Rhistory
+.RData
+.Rproj.user/
+
+# Stray icon export (not used by the project; marketing icon is 414x896)
+/AppIcon.appiconset/
