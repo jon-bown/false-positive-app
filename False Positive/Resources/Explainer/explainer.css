@@ -1,0 +1,364 @@
+/*
+ * Explainer page styling. Mirrors the native app:
+ *   - AppBackground (#24272B) and AccentColor (#E82E2E) from Assets.xcassets
+ *   - the `.cardStyle()` modifier in Views/Theme.swift
+ *   - iOS dark-mode label colors and system green/red
+ * `-apple-system-body` makes text follow the user's Dynamic Type size.
+ */
+
+:root {
+  --bg: #24272b;
+  --accent: #e82e2e;
+  --label: #ffffff;
+  --secondary: rgba(235, 235, 245, 0.6);
+  --tertiary: rgba(235, 235, 245, 0.3);
+  --card: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --well: rgba(0, 0, 0, 0.25);
+  --good: #30d158;
+  --bad: #ff453a;
+  --radius: 16px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font: -apple-system-body;
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--label);
+  font-family: -apple-system, system-ui, sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px calc(32px + env(safe-area-inset-bottom));
+}
+
+p { margin: 0 0 0.75em; }
+p:last-child { margin-bottom: 0; }
+em { font-style: italic; }
+strong { font-weight: 600; }
+
+a { color: var(--accent); text-decoration: none; }
+
+.muted { color: var(--secondary); }
+.small { font-size: 0.85em; }
+.accent { color: var(--accent); }
+
+/* ── Headings ─────────────────────────────────────────────── */
+
+.hero { padding: 12px 4px 20px; }
+
+.eyebrow,
+.label {
+  margin: 0 0 6px;
+  font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.eyebrow { color: var(--accent); }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 1.75em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.lede { font-size: 1.05em; color: var(--secondary); }
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 32px 4px 12px;
+  font-size: 1.3em;
+  font-weight: 700;
+  scroll-margin-top: 16px;
+}
+
+.step {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  background: rgba(232, 46, 46, 0.18);
+  color: var(--accent);
+  font-size: 0.7em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 1.05em;
+  font-weight: 600;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.card.featured { border: 1.5px solid rgba(232, 46, 46, 0.8); }
+
+.term {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.term h3 { margin: 0; }
+.term .math { color: var(--secondary); }
+
+.badge {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--well);
+  color: var(--secondary);
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.badge.accent { color: var(--accent); background: rgba(232, 46, 46, 0.15); }
+
+.callout {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px 12px 12px 4px;
+  background: rgba(232, 46, 46, 0.1);
+}
+
+/* ── "Your numbers" ───────────────────────────────────────── */
+
+/* `has-values` is set on <body> by explainer.js once the app passes inputs. */
+.yours-filled { display: none; }
+.has-values .yours-filled { display: block; }
+.has-values .yours-empty { display: none; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.chip {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--well);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.chip-key {
+  margin-right: 4px;
+  font-weight: 400;
+  color: var(--secondary);
+}
+
+.headline { font-size: 1.15em; }
+
+/* ── Contents ─────────────────────────────────────────────── */
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: toc;
+}
+.toc li { counter-increment: toc; }
+.toc li + li { border-top: 1px solid var(--card-border); }
+.toc a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  color: var(--label);
+}
+.toc a::before {
+  content: counter(toc);
+  width: 1.2em;
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.toc a::after {
+  content: "›";
+  margin-left: auto;
+  color: var(--tertiary);
+  font-size: 1.3em;
+  line-height: 1;
+}
+.toc li:last-child a { padding-bottom: 0; }
+
+/* ── Notation ─────────────────────────────────────────────── */
+
+.events {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.events div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--well);
+}
+.events dt {
+  flex: none;
+  width: 2em;
+  font-size: 1.15em;
+  text-align: center;
+}
+.events dd { margin: 0; color: var(--secondary); }
+
+/* ── Math ─────────────────────────────────────────────────── */
+
+.katex { font-size: 1.08em; }
+
+.math.display {
+  margin: 12px 0;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: var(--well);
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+  -webkit-overflow-scrolling: touch;
+}
+.math.display .katex-display { margin: 0; }
+.math.display.large .katex { font-size: 1.35em; }
+
+/* Keep inline equations, and punctuation right after them, on one line. */
+.math:not(.display) .katex,
+.nobr { white-space: nowrap; }
+
+/* Before KaTeX runs (or if it fails) show the TeX source quietly. */
+.math:not(.rendered) {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.85em;
+  color: var(--secondary);
+  white-space: pre-wrap;
+}
+
+/* ── Worked examples ──────────────────────────────────────── */
+
+.worked { display: none; }
+.has-values .worked { display: block; }
+
+.worked {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--card-border);
+}
+.worked .label { color: var(--accent); }
+.worked .math.display {
+  margin-bottom: 0;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px 12px 12px 4px;
+}
+.worked .note { margin: 8px 0 0; }
+
+/* ── Confusion matrix ─────────────────────────────────────── */
+
+.matrix {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+.matrix-row {
+  display: grid;
+  grid-template-columns: 3.6em 1fr 1fr;
+  gap: 8px;
+  align-items: stretch;
+}
+.matrix-head span {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--secondary);
+  text-align: center;
+}
+.matrix-side {
+  align-self: center;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--well);
+  border: 1px solid transparent;
+  min-width: 0;
+}
+.cell.good { border-color: rgba(48, 209, 88, 0.45); }
+.cell.bad { border-color: rgba(255, 69, 58, 0.45); }
+.cell-name { font-size: 0.85em; font-weight: 600; }
+.cell.good .cell-name { color: var(--good); }
+.cell.bad .cell-name { color: var(--bad); }
+.cell .math { color: var(--secondary); font-size: 0.9em; }
+.cell-count {
+  margin-top: auto;
+  font-size: 1.1em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.cell-count:empty { display: none; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  font-size: 0.8em;
+  color: var(--secondary);
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dot.good { background: var(--good); }
+.dot.bad { background: var(--bad); margin-left: 10px; }
+.legend-note { margin-left: auto; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+
+footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--tertiary);
+}
+footer p { margin: 2px 0; }

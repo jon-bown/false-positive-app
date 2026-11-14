@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>The Probability Behind Medical Testing</title>
+<link rel="stylesheet" href="katex.min.css">
+<link rel="stylesheet" href="explainer.css">
+</head>
+<body>
+<main>
+
+<!-- ───────────────────────────── Intro ───────────────────────────── -->
+<header class="hero">
+  <p class="eyebrow">The math</p>
+  <h1>The Probability Behind Medical Testing</h1>
+  <p class="lede">A test can be 95% accurate and still be wrong about most of the people it flags. Here's the math behind every number in the calculator, and why.</p>
+</header>
+
+<section class="card yours" id="yours" aria-live="polite">
+  <div class="yours-empty">
+    <p class="label">Your numbers</p>
+    <p class="muted">Enter a prevalence, sensitivity and specificity in the calculator to see each formula below worked through with your values.</p>
+  </div>
+  <div class="yours-filled">
+    <p class="label">Your numbers</p>
+    <div class="chips">
+      <span class="chip"><span class="chip-key">Prevalence</span> <span data-value="prevalence"></span></span>
+      <span class="chip"><span class="chip-key">Sensitivity</span> <span data-value="sensitivity"></span></span>
+      <span class="chip"><span class="chip-key">Specificity</span> <span data-value="specificity"></span></span>
+    </div>
+    <p class="headline">If you test positive, there's a <strong class="accent" data-value="ppv"></strong> chance you actually have the condition.</p>
+    <p class="muted small">Each formula below shows a worked example using these values.</p>
+  </div>
+</section>
+
+<nav class="card toc" aria-label="Contents">
+  <p class="label">Contents</p>
+  <ol>
+    <li><a href="#basics">The building blocks</a></li>
+    <li><a href="#bayes">Bayes' theorem</a></li>
+    <li><a href="#inputs">What you enter</a></li>
+    <li><a href="#matrix">The confusion matrix</a></li>
+    <li><a href="#results">What the calculator shows</a></li>
+    <li><a href="#assumptions">A note about assumptions</a></li>
+  </ol>
+</nav>
+
+<!-- ───────────────────────── Building blocks ───────────────────────── -->
+<h2 id="basics"><span class="step">1</span>The building blocks</h2>
+
+<section class="card">
+  <h3>Probability</h3>
+  <p>The probability of an event <span class="math">D</span> is written <span class="math">P(D)</span>. It's a number between 0 and 1 (0% to 100%) that describes how likely <span class="math">D</span> is to happen.</p>
+</section>
+
+<section class="card">
+  <h3>Conditional probability</h3>
+  <p>The probability of <span class="math">D</span> <em>given that</em> another event <span class="math">T</span> has already happened is written</p>
+  <div class="math display">P(D \mid T)</div>
+  <p>and read as "the probability of <span class="math">D</span> given <span class="math">T</span>." The order matters: <span class="math">P(D \mid T)</span> and <span class="math">P(T \mid D)</span> are usually very different numbers. Mixing them up is the whole reason false positives are so surprising.</p>
+</section>
+
+<section class="card">
+  <h3>Notation</h3>
+  <p>Throughout this page we use four events. A prime (′) means "not."</p>
+  <dl class="events">
+    <div><dt><span class="math">D</span></dt><dd>The person has the condition</dd></div>
+    <div><dt><span class="math">D'</span></dt><dd>The person doesn't have the condition</dd></div>
+    <div><dt><span class="math">T</span></dt><dd>The test result is positive</dd></div>
+    <div><dt><span class="math">T'</span></dt><dd>The test result is negative</dd></div>
+  </dl>
+</section>
+
+<!-- ───────────────────────────── Bayes ───────────────────────────── -->
+<h2 id="bayes"><span class="step">2</span>Bayes' theorem</h2>
+
+<section class="card featured">
+  <div class="math display large">P(A \mid B) = \frac{P(B \mid A)\,P(A)}{P(B)}</div>
+  <p>For any two events <span class="math">A</span> and <span class="math">B</span> with <span class="math">P(B) \neq 0</span>, Bayes' theorem lets us flip a conditional probability around.</p>
+  <p>A test's sensitivity and specificity tell us how likely a <em>result</em> is given the <em>condition</em>. What a patient wants to know is the reverse: how likely the <em>condition</em> is given the <em>result</em>. Bayes' theorem, combined with the prevalence, gets us from one to the other.</p>
+</section>
+
+<!-- ─────────────────────────── Inputs ─────────────────────────── -->
+<h2 id="inputs"><span class="step">3</span>What you enter</h2>
+
+<section class="card">
+  <div class="term"><h3>Prevalence</h3><div class="math">P(D)</div></div>
+  <p>The share of the population that has the condition at a given time. The share that doesn't is its complement:</p>
+  <div class="math display">P(D') = 1 - P(D)</div>
+  <p>Prevalence is usually estimated by sampling: test a group of people, count the true cases, and divide by the size of the group.</p>
+  <div class="worked" data-calc="prevalence"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>Sensitivity</h3><div class="math">P(T \mid D)</div></div>
+  <p>How often the test comes back positive for someone who <em>has</em> the condition, also called the true positive rate. A highly sensitive test rarely misses a real case.</p>
+  <div class="worked" data-calc="sensitivity"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>Specificity</h3><div class="math">P(T' \mid D')</div></div>
+  <p>How often the test comes back negative for someone who <em>doesn't</em> have the condition, also called the true negative rate. A highly specific test rarely raises a false alarm.</p>
+  <div class="worked" data-calc="specificity"></div>
+</section>
+
+<!-- ─────────────────────────── Matrix ─────────────────────────── -->
+<h2 id="matrix"><span class="step">4</span>The confusion matrix</h2>
+
+<section class="card">
+  <p>A confusion matrix sorts every test result into one of four outcomes. The calculator's <strong>Actuals</strong> tab applies it to <span data-value="population-size">100,000</span> people.</p>
+  <div class="matrix" role="table" aria-label="Confusion matrix">
+    <div class="matrix-row matrix-head" role="row">
+      <span role="columnheader"></span>
+      <span role="columnheader">Sick</span>
+      <span role="columnheader">Healthy</span>
+    </div>
+    <div class="matrix-row" role="row">
+      <span class="matrix-side" role="rowheader">Test +</span>
+      <div class="cell good" role="cell">
+        <span class="cell-name">True positive</span>
+        <span class="math">P(T \mid D)</span>
+        <span class="cell-count" data-value="tp"></span>
+      </div>
+      <div class="cell bad" role="cell">
+        <span class="cell-name">False positive</span>
+        <span class="math">P(T \mid D')</span>
+        <span class="cell-count" data-value="fp"></span>
+      </div>
+    </div>
+    <div class="matrix-row" role="row">
+      <span class="matrix-side" role="rowheader">Test −</span>
+      <div class="cell bad" role="cell">
+        <span class="cell-name">False negative</span>
+        <span class="math">P(T' \mid D)</span>
+        <span class="cell-count" data-value="fn"></span>
+      </div>
+      <div class="cell good" role="cell">
+        <span class="cell-name">True negative</span>
+        <span class="math">P(T' \mid D')</span>
+        <span class="cell-count" data-value="tn"></span>
+      </div>
+    </div>
+  </div>
+  <p class="legend"><span class="dot good"></span>Correct result <span class="dot bad"></span>Wrong result<span class="legend-note" data-value="matrix-note"></span></p>
+  <p class="muted small">The false-positive and false-negative rates are the complements of specificity and sensitivity: <span class="math">P(T \mid D') = 1 - P(T' \mid D')</span> and <span class="math">P(T' \mid D) = 1 - P(T \mid D)</span>.</p>
+</section>
+
+<!-- ─────────────────────────── Results ─────────────────────────── -->
+<h2 id="results"><span class="step">5</span>What the calculator shows</h2>
+
+<section class="card">
+  <div class="term"><h3>Probability of testing positive</h3><div class="badge">P(+)</div></div>
+  <p>Someone can test positive in two ways: they have the condition and the test catches it, or they don't have it and the test raises a false alarm. These can't both happen, so we add them:</p>
+  <div class="math display">P(T) = P(T \mid D)\,P(D) + P(T \mid D')\,P(D')</div>
+  <div class="worked" data-calc="pPositive"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>Probability of testing negative</h3><div class="badge">P(−)</div></div>
+  <p>In the same way, a negative result is either a correct all-clear or a missed case:</p>
+  <div class="math display">P(T') = P(T' \mid D')\,P(D') + P(T' \mid D)\,P(D)</div>
+  <div class="worked" data-calc="pNegative"></div>
+</section>
+
+<section class="card featured">
+  <div class="term"><h3>Positive predictive value</h3><div class="badge accent">PPV</div></div>
+  <p>This is the number most people actually care about: <strong>if I test positive, how likely is it that I have the condition?</strong></p>
+  <div class="callout">
+    <p>It's easy to confuse this with sensitivity. A test with 95% sensitivity does <em>not</em> mean a positive result is 95% likely to be right. When a condition is rare, false positives from the large healthy group can far outnumber the true positives.</p>
+  </div>
+  <p>PPV is the share of all positive results that are true positives:</p>
+  <div class="math display">\text{PPV} = \frac{\text{true positives}}{\text{true positives} + \text{false positives}}</div>
+  <p>In terms of what you enter, writing <span class="math">\text{Se}</span> for sensitivity, <span class="math">\text{Sp}</span> for specificity and <span class="math">p</span> for prevalence:</p>
+  <div class="math display">\text{PPV} = \frac{\text{Se} \cdot p}{\text{Se} \cdot p + (1 - \text{Sp})(1 - p)}</div>
+  <p>Written with our notation, the denominator is exactly <span class="math">P(T)</span>, and Bayes' theorem shows that PPV is the probability of having the condition given a positive test:</p>
+  <div class="math display">\begin{aligned} \text{PPV} &amp;= \frac{P(T \mid D)\,P(D)}{P(T \mid D)\,P(D) + P(T \mid D')\,P(D')} \\[6pt] &amp;= \frac{P(T \mid D)\,P(D)}{P(T)} = P(D \mid T) \end{aligned}</div>
+  <div class="worked" data-calc="ppv"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>False discovery rate</h3><div class="badge">FDR</div></div>
+  <p>The share of positive results that are wrong: the person tested positive but doesn't have the condition. It's the complement of PPV:</p>
+  <div class="math display">\text{FDR} = 1 - \text{PPV} = 1 - P(D \mid T) = P(D' \mid T)</div>
+  <div class="worked" data-calc="fdr"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>Negative predictive value</h3><div class="badge">NPV</div></div>
+  <p>The mirror image of PPV: <strong>if I test negative, how likely is it that I'm actually clear?</strong> Just as sensitivity isn't PPV, a test with 95% specificity doesn't mean a negative result is 95% likely to be right.</p>
+  <div class="math display">\text{NPV} = \frac{\text{true negatives}}{\text{true negatives} + \text{false negatives}}</div>
+  <p>Using the same shorthand:</p>
+  <div class="math display">\text{NPV} = \frac{\text{Sp} \cdot (1 - p)}{\text{Sp} \cdot (1 - p) + (1 - \text{Se}) \cdot p}</div>
+  <div class="math display">\begin{aligned} \text{NPV} &amp;= \frac{P(T' \mid D')\,P(D')}{P(T' \mid D')\,P(D') + P(T' \mid D)\,P(D)} \\[6pt] &amp;= \frac{P(T' \mid D')\,P(D')}{P(T')} = P(D' \mid T') \end{aligned}</div>
+  <div class="worked" data-calc="npv"></div>
+</section>
+
+<section class="card">
+  <div class="term"><h3>False omission rate</h3><div class="badge">FOR</div></div>
+  <p>The share of negative results that are wrong: the person tested negative but does have the condition. It's the complement of NPV:</p>
+  <div class="math display">\text{FOR} = 1 - \text{NPV} = 1 - P(D' \mid T') = P(D \mid T')</div>
+  <div class="worked" data-calc="for"></div>
+</section>
+
+<!-- ─────────────────────────── Assumptions ─────────────────────────── -->
+<h2 id="assumptions"><span class="step">6</span>A note about assumptions</h2>
+
+<section class="card">
+  <p>These calculations assume the condition is spread evenly through the population, so that <span class="math">P(D)</span> is the same for everyone. In reality it rarely is: symptoms, exposure and risk factors all change an individual's chances, which is why a doctor's judgment matters.</p>
+  <p>The core lesson still holds, though. A test with 95% sensitivity does <em>not</em> mean there's a 95% chance you have the condition if you test positive. Often the chance is much lower.</p>
+  <p class="muted small">False Positive is an educational tool. It doesn't give medical advice and isn't a reason to dismiss a test result. Talk to a healthcare professional about your own results.</p>
+</section>
+
+<footer>
+  <p>© App Factorial LLC</p>
+  <p>Equations typeset with KaTeX.</p>
+</footer>
+
+</main>
+<script src="katex.min.js"></script>
+<script src="explainer.js"></script>
+</body>
+</html>
