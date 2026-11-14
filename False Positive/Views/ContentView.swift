@@ -78,14 +78,16 @@ struct ContentView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("How to use", systemImage: "questionmark.circle") { showingHelp = true }
                 }
-                ToolbarItemGroup(placement: .keyboard) {
-                    Button("Previous", systemImage: "chevron.up") { moveFocus(by: -1) }
-                        .disabled(focusedField == .prevalence)
-                    Button("Next", systemImage: "chevron.down") { moveFocus(by: 1) }
-                        .disabled(focusedField == .specificity)
-                    Spacer()
-                    Button("Done") { focusedField = nil }
-                        .fontWeight(.semibold)
+            }
+            // A hand-rolled keyboard accessory bar. SwiftUI's built-in
+            // `.toolbar { ToolbarItemGroup(placement: .keyboard) }` logs
+            // "Invalid frame dimension (negative or non-finite)" on iOS 27
+            // every time the keyboard appears, whatever its contents.
+            // The bottom safe area includes the keyboard, so this sits on top of it.
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if focusedField != nil {
+                    keyboardBar
+                        .transition(.opacity)
                 }
             }
             .sheet(isPresented: $showingInfo) { InfoSheet() }
@@ -122,6 +124,24 @@ struct ContentView: View {
         }
         .cardStyle()
         .animation(.default, value: hasOutOfRangeInput)
+    }
+
+    private var keyboardBar: some View {
+        HStack(spacing: 20) {
+            Button("Previous field", systemImage: "chevron.up") { moveFocus(by: -1) }
+                .disabled(focusedField == .prevalence)
+            Button("Next field", systemImage: "chevron.down") { moveFocus(by: 1) }
+                .disabled(focusedField == .specificity)
+            Spacer()
+            Button("Done") { focusedField = nil }
+                .fontWeight(.semibold)
+        }
+        .labelStyle(.iconOnly)
+        .font(.body.weight(.medium))
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .background(.bar)
     }
 
     private func moveFocus(by offset: Int) {
