@@ -90,7 +90,7 @@ struct ContentView: View {
                         .transition(.opacity)
                 }
             }
-            .sheet(isPresented: $showingInfo) { InfoSheet() }
+            .sheet(isPresented: $showingInfo) { InfoSheet(test: test) }
             .sheet(isPresented: $showingHelp) { HelpSheet() }
         }
     }
